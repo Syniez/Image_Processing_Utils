@@ -238,5 +238,4 @@ def surface_normal(depth):
 
             magnitude = np.sqrt(dzdx**2 + dzdy**2+ 1)
             norm[j, i, :] = [dzdx/magnitude, dzdy/magnitude, 1/magnitude]
-
     return norm
