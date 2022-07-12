@@ -225,3 +225,18 @@ def grid_flow(im_g, im, flow, black = False):     # im : grayscale image
     for (x1, y1), (x2, y2) in lines:
         cv2.circle(im, (x1, y1), 1, (200, 0, 200), -1)
     return im
+
+
+def surface_normal(depth):
+    # Input of this function must be 1channel depth image
+    norm = np.zeros((depth.shape[0], depth.shape[1], 3), dtype=np.float32)
+
+    for i in range(1, depth.shape[1]-1):
+        for j in range(1, depth.shape[0]-1):
+            dzdx = depth[j, i+1] - depth[j, i-1] / 2
+            dzdy = depth[j+1, i] - depth[j-1, i] / 2
+
+            magnitude = np.sqrt(dzdx**2 + dzdy**2+ 1)
+            norm[j, i, :] = [dzdx/magnitude, dzdy/magnitude, 1/magnitude]
+
+    return norm
