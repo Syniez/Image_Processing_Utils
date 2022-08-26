@@ -1,3 +1,4 @@
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -239,3 +240,45 @@ def surface_normal(depth):
             magnitude = np.sqrt(dzdx**2 + dzdy**2+ 1)
             norm[j, i, :] = [dzdx/magnitude, dzdy/magnitude, 1/magnitude]
     return norm
+
+
+def subplot_colorbar():
+    fig, pos = plt.subplots(nrows=2, ncols=4)
+    pos[0][0].imshow(data[:,:,0])
+    pos[0][1].imshow(data[:,:,1])
+    pos[0][2].imshow(data[:,:,2])
+    pos[0][3].imshow(data[:,:,3])
+
+    tmp = data[:,:,0] * data[:,:,-1]
+    tmp[tmp!=0] -= 0.5
+    a = pos[1][0].imshow(tmp)
+    ax = pos[1][0]
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(a, cax=cax)
+
+    tmp = data[:,:,1] * data[:,:,-1]
+    tmp[tmp!=0] -= 0.5
+    b = pos[1][1].imshow(tmp)
+    ax = pos[1][1]
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(b, cax=cax)
+
+    tmp = data[:,:,2] * data[:,:,-1]
+    tmp[tmp!=0] -= 0.5
+    c = pos[1][2].imshow(tmp)
+    ax = pos[1][2]
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(c, cax=cax)
+
+    tmp = data[:,:,3] * data[:,:,-1]
+    tmp[tmp!=0] -= 0.5
+    d = pos[1][3].imshow(tmp)
+    ax = pos[1][3]
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    plt.colorbar(d, cax=cax)
+
+    plt.show()
